@@ -1,0 +1,15 @@
+server/node_modules/
+client/node_modules/
+docker/
+server/package-lock.json
+client/package-lock.json
+server/logs
+server/.idea
+.idea
+.env.backend
+**/node_modules
+**/.idea
+client/build
+client/.idea
+k8s/backend-env-secrets.yml
+aws/

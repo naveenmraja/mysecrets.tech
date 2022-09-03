@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: mysecrets-nginx
+  template:
+    metadata:
+      labels:
+        component: mysecrets-nginx
+    spec:
+      containers:
+        - name: mysecrets-nginx
+          image: naveenmraja/mysecrets-nginx:1.0
+          ports:
+            - containerPort: 80

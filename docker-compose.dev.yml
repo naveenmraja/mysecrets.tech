@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+  mysecrets-dev-backend:
+    build:
+      context: ./server
+      dockerfile: DockerFile.dev
+    container_name: mysecrets-dev-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./.env.backend.dev
+    depends_on:
+      - "dynamodb-local"
+    links:
+      - "dynamodb-local"
+    volumes:
+      - "/usr/mysecrets/server/node_modules"
+      - "./server:/usr/mysecrets/server"
+  mysecrets-dev-frontend:
+    build:
+      context: ./client
+      dockerfile: DockerFile.dev
+    container_name: mysecrets-dev-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - "/usr/mysecrets/client/node_modules"
+      - "./client:/usr/mysecrets/client"
+    environment:
+      - WDS_SOCKET_PORT=0
+    depends_on:
+      - mysecrets-dev-backend
+    links:
+      - mysecrets-dev-backend
+  nginx-dev:
+    build:
+      context: ./nginx
+      dockerfile: DockerFile.dev
+    container_name: nginx-dev
+    ports:
+      - "80:80"
+    depends_on:
+      - mysecrets-dev-backend
+      - mysecrets-dev-frontend
+    links:
+      - mysecrets-dev-backend
+      - mysecrets-dev-frontend
