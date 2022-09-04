@@ -241,6 +241,7 @@ export const userSlice = createSlice({
                 state.ui.signUpError = ""
                 Object.assign(state, response)
                 state.loggedIn = true
+                state.ui.showSignup = false
             }
             state.ui.showLoader = false;
         }).addCase(signupUser.rejected, (state) => {

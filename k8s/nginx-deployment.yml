@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: mysecrets-nginx
-          image: naveenmraja/mysecrets-nginx:1.0
+          image: naveenmraja/mysecrets-nginx:1.1
           ports:
             - containerPort: 80

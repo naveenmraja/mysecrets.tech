@@ -76,6 +76,7 @@ class LogInView extends Component {
     render() {
         return(
             <Container component="main" maxWidth="xs">
+                <Loader showLoader={this.props.ui.showLoader}/>
                 <Snackbar open={this.props.ui.showSnackbar} autoHideDuration={5000} onClose={this.closeSnackbar}>
                     <Alert onClose={this.closeSnackbar} severity="error" sx={{ width: '100%' }}>
                         {this.props.ui.loginError}
@@ -192,7 +193,6 @@ class LogInView extends Component {
                         </Grid>
                     </Box>
                 </Box>
-                <Loader showLoader={this.props.ui.showLoader}/>
             </Container>
         )
     }
