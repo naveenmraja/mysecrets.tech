@@ -4,10 +4,10 @@
 
 [MySecrets](http://mysecrets.tech) is a simple diary app and a great way to record your memories. You can create an entry against any date, edit and delete it at any point in time. MySecrets provides a dashboard to view and navigate through all the entries created.
 
-| ![6xW98N.md.png](https://iili.io/6xW98N.md.png) | ![6xWJ9I.md.png](https://iili.io/6xWJ9I.md.png) |  
+| [![6xW98N.md.png](https://iili.io/6xW98N.md.png)](https://freeimage.host/i/6xW98N) | [![6xWJ9I.md.png](https://iili.io/6xWJ9I.md.png)](https://freeimage.host/i/6xWJ9I) |  
 |--|--|  
-| ![6xVpFR.md.png](https://iili.io/6xVpFR.md.png) | ![6xVyap.md.png](https://iili.io/6xVyap.md.png) |  
-|![6xWdut.md.png](https://iili.io/6xWdut.md.png)|
+| [![6afETx.md.png](https://iili.io/6afETx.md.png)](https://freeimage.host/i/6afETx) | [![6xVpFR.md.png](https://iili.io/6xVpFR.md.png)](https://freeimage.host/i/6xVpFR) |  
+| [![6xVyap.md.png](https://iili.io/6xVyap.md.png)](https://freeimage.host/i/6xVyap)| [![6xWdut.md.png](https://iili.io/6xWdut.md.png)](https://freeimage.host/i/6xWdut) |
 
 
 **Technologies Used:**
