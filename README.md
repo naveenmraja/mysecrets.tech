@@ -16,7 +16,7 @@
 - React+Redux
 - AWS DynamoDB
 - Nginx
-- Docker-compose
+- Docker
 - Kubernetes
 
 **To run the app in development mode :**
@@ -27,12 +27,13 @@
 
 **For Production build and deployment :**
 
-- Create the following files in root directory :
+- Create the following files in /k8s directory :
 
   - **`backend-env-secrets.yml`**
 
 
-		apiVersion: v1    kind: Secret    
+		apiVersion: v1    
+		kind: Secret    
 	    metadata:    
 	      name: backend-env-secrets    
 	    type: Opaque    
@@ -45,7 +46,8 @@
 - Update the image names of `mysecrets-backend` and `nginx` services in `docker-compose.yml` and build the images and push it to your docker repository using the following commands
 
       docker-compose build --pull  
-docker-compose push
+      docker-compose push
+
 - Set your gcloud project id using the following command :
 
       gcloud config set project $PROJECT_ID  
@@ -57,7 +59,8 @@ docker-compose push
 - Create cluster role binding to use ingress-nginx using the following command:
 
       kubectl create clusterrolebinding cluster-admin-binding \  
---clusterrole cluster-admin \ --user $(gcloud config get-value account)
+      --clusterrole cluster-admin \ --user $(gcloud config get-value account)
+
 - Install ingress-nginx :
 
       kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml  
