@@ -13,3 +13,4 @@ client/build
 client/.idea
 k8s/backend-env-secrets.yml
 aws/
+.DS_Store

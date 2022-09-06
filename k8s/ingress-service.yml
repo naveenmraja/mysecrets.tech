@@ -6,9 +6,34 @@ metadata:
     kubernetes.io/ingress.class: 'nginx'
     nginx.ingress.kubernetes.io/use-regex: 'true'
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    cert-manager.io/cluster-issuer: 'letsencrypt-prod'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
 spec:
+  tls:
+    - hosts:
+        - mysecrets.tech
+        - www.mysecrets.tech
+      secretName: mysecrets-tech
   rules:
-    - http:
+    - host: mysecrets.tech
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: nginx-cluster-ip-service
+                port:
+                  number: 80
+          - path: /api/?(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-cluster-ip-service
+                port:
+                  number: 8080
+    - host: www.mysecrets.tech
+      http:
         paths:
           - path: /?(.*)
             pathType: Prefix

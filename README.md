@@ -1,8 +1,9 @@
 
 
-## [MySecrets](http://mysecrets.tech)
 
-[MySecrets](http://mysecrets.tech) is a simple diary app and a great way to record your memories. You can create an entry against any date, edit and delete it at any point in time. MySecrets provides a dashboard to view and navigate through all the entries created.
+## [MySecrets](https://mysecrets.tech)
+
+[MySecrets](https://mysecrets.tech) is a simple diary app and a great way to record your memories. You can create an entry against any date, edit and delete it at any point in time. MySecrets provides a dashboard to view and navigate through all the entries created.
 
 | [![6xW98N.md.png](https://iili.io/6xW98N.md.png)](https://freeimage.host/i/6xW98N) | [![6xWJ9I.md.png](https://iili.io/6xWJ9I.md.png)](https://freeimage.host/i/6xWJ9I) |  
 |--|--|  
@@ -64,6 +65,10 @@
 - Install ingress-nginx :
 
       kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.3.0/deploy/static/provider/cloud/deploy.yaml  
+
+- Install cert-manager for SSL support :
+
+	kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
 
 - To deploy to gcloud, run the following command from root directory :
 
