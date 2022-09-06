@@ -60,7 +60,8 @@
 - Create cluster role binding to use ingress-nginx using the following command:
 
       kubectl create clusterrolebinding cluster-admin-binding \  
-      --clusterrole cluster-admin \ --user $(gcloud config get-value account)
+      --clusterrole cluster-admin \ 
+      --user $(gcloud config get-value account)
 
 - Install ingress-nginx :
 
@@ -68,7 +69,7 @@
 
 - Install cert-manager for SSL support :
 
-	kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml
+      kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.yaml  
 
 - To deploy to gcloud, run the following command from root directory :
 
