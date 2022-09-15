@@ -9,7 +9,7 @@ export const UPDATE_USER = "update_user"
 export const CREATE_ENTRY = "create_entry"
 export const UPDATE_ENTRY = "update_entry"
 export const SALT_ROUNDS = 8
-export const DYNAMO_DB_LOCAL_ENDPOIT="DYNAMO_DB_LOCAL_ENDPOIT"
+export const DYNAMO_DB_LOCAL_ENDPOIT = "DYNAMO_DB_LOCAL_ENDPOIT"
 
 export function getEnvironmentVariable(name) {
     return process.env[name]

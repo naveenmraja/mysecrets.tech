@@ -1,20 +1,30 @@
 import * as React from 'react';
+import {Component} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import {Component} from "react";
 import {connect} from "react-redux";
 import {Button, Container, IconButton, InputAdornment, Snackbar, TextField} from "@mui/material";
 import Box from "@mui/material/Box";
 import {
-    clearErrors, hideLoader, hideSnackbar,
-    showLogin, signupUser, updateConfirmPassword, updateConfirmPasswordError,
-    updateDiaryName, updateDiaryNameError,
-    updateEmail, updateEmailError,
-    updateName, updateNameError,
-    updatePassword, updatePasswordError,
-    updateUsername, updateUsernameError
+    clearErrors,
+    hideLoader,
+    hideSnackbar,
+    showLogin,
+    signupUser,
+    updateConfirmPassword,
+    updateConfirmPasswordError,
+    updateDiaryName,
+    updateDiaryNameError,
+    updateEmail,
+    updateEmailError,
+    updateName,
+    updateNameError,
+    updatePassword,
+    updatePasswordError,
+    updateUsername,
+    updateUsernameError
 } from "./UserSlice";
 import Link from '@mui/material/Link';
 import isAlphanumeric from "validator/es/lib/isAlphanumeric";
@@ -24,7 +34,8 @@ import isEmail from "validator/es/lib/isEmail";
 import isAlpha from "validator/es/lib/isAlpha";
 import {
     EmailOutlined,
-    KeyOutlined, NoteAltOutlined,
+    KeyOutlined,
+    NoteAltOutlined,
     PersonOutlined,
     VisibilityOffOutlined,
     VisibilityOutlined
@@ -34,8 +45,8 @@ import Loader from "../../components/Loader";
 
 function mapStateToProps(state) {
     return {
-        user : state.user,
-        ui : state.user.ui
+        user: state.user,
+        ui: state.user.ui
     }
 }
 
@@ -48,8 +59,8 @@ class SignUpView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showPassword : false,
-            showForgotPasswordSnackbar : false
+            showPassword: false,
+            showForgotPasswordSnackbar: false
         }
     }
 
@@ -57,17 +68,17 @@ class SignUpView extends Component {
         event.preventDefault()
         this.props.dispatch(hideSnackbar())
         this.props.dispatch(clearErrors())
-        if(this.props.user.username.length < 6 || !isAlphanumeric(this.props.user.username)) {
+        if (this.props.user.username.length < 6 || !isAlphanumeric(this.props.user.username)) {
             this.props.dispatch(updateUsernameError(Constants.INVALID_USERNAME))
-        } else if(!isStrongPassword(this.props.user.password)) {
+        } else if (!isStrongPassword(this.props.user.password)) {
             this.props.dispatch(updatePasswordError(Constants.INVALID_PASSWORD))
-        } else if(this.props.user.password !== this.props.user.confirmPassword) {
+        } else if (this.props.user.password !== this.props.user.confirmPassword) {
             this.props.dispatch(updateConfirmPasswordError(Constants.CONFIRM_PASSWORD_ERROR))
-        } else if(!isEmail(this.props.user.email)) {
+        } else if (!isEmail(this.props.user.email)) {
             this.props.dispatch(updateEmailError(Constants.INVALID_EMAIL))
-        } else if(this.props.user.name.length < 1 || !isAlpha(this.props.user.name, 'en-US', {ignore: '\s'})) {
+        } else if (this.props.user.name.length < 1 || !isAlpha(this.props.user.name, 'en-US', {ignore: '\s'})) {
             this.props.dispatch(updateNameError(Constants.INVALID_NAME))
-        } else if(this.props.user.diaryName.length < 1) {
+        } else if (this.props.user.diaryName.length < 1) {
             this.props.dispatch(updateDiaryNameError(Constants.INVALID_DIARY_NAME))
         } else {
             this.props.dispatch(clearErrors())
@@ -80,15 +91,17 @@ class SignUpView extends Component {
     }
 
     render() {
-        return(
+        return (
             <Container component="main" maxWidth="xs">
                 <Snackbar open={this.props.ui.showSnackbar} autoHideDuration={5000} onClose={this.closeSnackbar}>
-                    <Alert onClose={this.closeSnackbar} severity="error" sx={{ width: '100%' }}>
+                    <Alert onClose={this.closeSnackbar} severity="error" sx={{width: '100%'}}>
                         {this.props.ui.signUpError}
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.showForgotPasswordSnackbar} autoHideDuration={5000} onClose={() => this.setState({showForgotPasswordSnackbar : false})}>
-                    <Alert onClose={() => this.setState({showForgotPasswordSnackbar : false})} severity="error" sx={{ width: '100%' }}>
+                <Snackbar open={this.state.showForgotPasswordSnackbar} autoHideDuration={5000}
+                          onClose={() => this.setState({showForgotPasswordSnackbar: false})}>
+                    <Alert onClose={() => this.setState({showForgotPasswordSnackbar: false})} severity="error"
+                           sx={{width: '100%'}}>
                         Forgot Password feature unavailable at this moment
                     </Alert>
                 </Snackbar>
@@ -100,13 +113,13 @@ class SignUpView extends Component {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                        <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate sx={{mt: 1}}>
                         <TextField
                             margin="normal"
                             required
@@ -119,7 +132,7 @@ class SignUpView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <PersonOutlined color={"primary"} />
+                                        <PersonOutlined color={"primary"}/>
                                     </InputAdornment>
                                 )
                             }}
@@ -140,18 +153,18 @@ class SignUpView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <KeyOutlined color={"primary"} />
+                                        <KeyOutlined color={"primary"}/>
                                     </InputAdornment>
                                 ),
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         {this.state.showPassword ? (
-                                            <IconButton onClick={() => this.setState({ showPassword: false })}>
-                                                <VisibilityOffOutlined />
+                                            <IconButton onClick={() => this.setState({showPassword: false})}>
+                                                <VisibilityOffOutlined/>
                                             </IconButton>
                                         ) : (
-                                            <IconButton onClick={() => this.setState({ showPassword: true })}>
-                                                <VisibilityOutlined />
+                                            <IconButton onClick={() => this.setState({showPassword: true})}>
+                                                <VisibilityOutlined/>
                                             </IconButton>
                                         )}
                                     </InputAdornment>
@@ -174,18 +187,18 @@ class SignUpView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <KeyOutlined color={"primary"} />
+                                        <KeyOutlined color={"primary"}/>
                                     </InputAdornment>
                                 ),
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         {this.state.showPassword ? (
-                                            <IconButton onClick={() => this.setState({ showPassword: false })}>
-                                                <VisibilityOffOutlined />
+                                            <IconButton onClick={() => this.setState({showPassword: false})}>
+                                                <VisibilityOffOutlined/>
                                             </IconButton>
                                         ) : (
-                                            <IconButton onClick={() => this.setState({ showPassword: true })}>
-                                                <VisibilityOutlined />
+                                            <IconButton onClick={() => this.setState({showPassword: true})}>
+                                                <VisibilityOutlined/>
                                             </IconButton>
                                         )}
                                     </InputAdornment>
@@ -207,7 +220,7 @@ class SignUpView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <EmailOutlined color={"primary"} />
+                                        <EmailOutlined color={"primary"}/>
                                     </InputAdornment>
                                 )
                             }}
@@ -227,7 +240,7 @@ class SignUpView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <PersonOutlined color={"primary"} />
+                                        <PersonOutlined color={"primary"}/>
                                     </InputAdornment>
                                 )
                             }}
@@ -246,7 +259,7 @@ class SignUpView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <NoteAltOutlined color={"primary"} />
+                                        <NoteAltOutlined color={"primary"}/>
                                     </InputAdornment>
                                 )
                             }}
@@ -258,7 +271,7 @@ class SignUpView extends Component {
                         <Button
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                             onClick={this.handleSignUp}
                         >
                             Sign Up
@@ -268,7 +281,7 @@ class SignUpView extends Component {
                                 <Link variant="body1"
                                       sx={{cursor: "pointer"}} // TODO : Implement Forgot Password
                                       onClick={() => {
-                                          this.setState({showForgotPasswordSnackbar : true})
+                                          this.setState({showForgotPasswordSnackbar: true})
                                       }}>
                                     Forgot password?
                                 </Link>

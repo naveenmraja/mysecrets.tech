@@ -1,5 +1,6 @@
 import {
-    validateCreateOrUpdateEntry, validateGetEntries,
+    validateCreateOrUpdateEntry,
+    validateGetEntries,
     validateGetOrDeleteEntryForUser,
     validateGetUserEntryCalendar
 } from "../utils/RequestValidators.js";
@@ -7,7 +8,8 @@ import * as constants from "../utils/Constants.js";
 import {
     createOrUpdateEntry,
     deleteEntryForUser,
-    getEntryForUser, getUserEntries,
+    getEntryForUser,
+    getUserEntries,
     getUserEntryCalendar
 } from "../services/EntryService.js";
 import {log} from "../utils/Logger.js";
@@ -15,9 +17,9 @@ import {log} from "../utils/Logger.js";
 async function handleCreateOrUpdateEntry(req, res, command) {
     try {
         const result = await validateCreateOrUpdateEntry(req, command)
-        if(!result.isEmpty()) {
+        if (!result.isEmpty()) {
             return res.status(400).json({
-                status : constants.STATUS_FAILURE,
+                status: constants.STATUS_FAILURE,
                 errors: result.array()
             })
         }
@@ -25,7 +27,7 @@ async function handleCreateOrUpdateEntry(req, res, command) {
         return res.status(200).json(response)
     } catch (e) {
         log.error(`Error occurred in ${command} API : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
         return res.status(500).json(responseBody)
     }
 }
@@ -41,9 +43,9 @@ export async function updateEntry(req, res) {
 export async function getEntry(req, res) {
     try {
         const result = await validateGetOrDeleteEntryForUser(req)
-        if(!result.isEmpty()) {
+        if (!result.isEmpty()) {
             return res.status(400).json({
-                status : constants.STATUS_FAILURE,
+                status: constants.STATUS_FAILURE,
                 errors: result.array()
             })
         }
@@ -51,7 +53,7 @@ export async function getEntry(req, res) {
         return res.status(200).json(response)
     } catch (e) {
         log.error(`Error occurred in getEntry API : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
         return res.status(500).json(responseBody)
     }
 }
@@ -59,9 +61,9 @@ export async function getEntry(req, res) {
 export async function getEntries(req, res) {
     try {
         const result = await validateGetEntries(req)
-        if(!result.isEmpty()) {
+        if (!result.isEmpty()) {
             return res.status(400).json({
-                status : constants.STATUS_FAILURE,
+                status: constants.STATUS_FAILURE,
                 errors: result.array()
             })
         }
@@ -70,7 +72,7 @@ export async function getEntries(req, res) {
         return res.status(200).json(response)
     } catch (e) {
         log.error(`Error occurred in getEntries API : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
         return res.status(500).json(responseBody)
     }
 }
@@ -78,9 +80,9 @@ export async function getEntries(req, res) {
 export async function deleteEntry(req, res) {
     try {
         const result = await validateGetOrDeleteEntryForUser(req)
-        if(!result.isEmpty()){
+        if (!result.isEmpty()) {
             return res.status(400).json({
-                status : constants.STATUS_FAILURE,
+                status: constants.STATUS_FAILURE,
                 errors: result.array()
             })
         }
@@ -88,7 +90,7 @@ export async function deleteEntry(req, res) {
         return res.status(200).json(response)
     } catch (e) {
         log.error(`Error occurred in getEntryCalendar API : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
         return res.status(500).json(responseBody)
     }
 }
@@ -96,9 +98,9 @@ export async function deleteEntry(req, res) {
 export async function getEntryCalendar(req, res) {
     try {
         const result = await validateGetUserEntryCalendar(req)
-        if(!result.isEmpty()){
+        if (!result.isEmpty()) {
             return res.status(400).json({
-                status : constants.STATUS_FAILURE,
+                status: constants.STATUS_FAILURE,
                 errors: result.array()
             })
         }
@@ -106,7 +108,7 @@ export async function getEntryCalendar(req, res) {
         return res.status(200).json(response)
     } catch (e) {
         log.error(`Error occurred in getEntryCalendar API : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
         return res.status(500).json(responseBody)
     }
 }

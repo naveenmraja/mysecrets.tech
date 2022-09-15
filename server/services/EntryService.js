@@ -1,25 +1,25 @@
-import { Entry } from '../model/Entries.js'
+import {Entry} from '../model/Entries.js'
 import * as constants from '../utils/Constants.js'
-import { nanoid } from 'nanoid/async'
-import { log } from '../utils/Logger.js'
+import {nanoid} from 'nanoid/async'
+import {log} from '../utils/Logger.js'
 
 export async function createOrUpdateEntry(request, response, command) {
     try {
         log.info(`${command} request from ${request.session.username}`)
         const entryId = (command === constants.UPDATE_ENTRY) ? request.body.id : (`entry_${await nanoid()}`)
         const document = {
-            "id" : entryId,
+            "id": entryId,
             "username": request.session.username,
-            "title" : request.body.title,
-            "date" : request.body.date,
-            "month" : request.body.month,
-            "year" : request.body.year,
-            "content" : request.body.content
+            "title": request.body.title,
+            "date": request.body.date,
+            "month": request.body.month,
+            "year": request.body.year,
+            "content": request.body.content
         }
         let entry
-        if(command === constants.CREATE_ENTRY) {
+        if (command === constants.CREATE_ENTRY) {
             entry = await Entry.create(document)
-        } else if(command === constants.UPDATE_ENTRY) {
+        } else if (command === constants.UPDATE_ENTRY) {
             entry = await Entry.update(document)
         }
         const responseBody = entry.toJSON()
@@ -36,8 +36,8 @@ export async function deleteEntryForUser(entryId, username) {
         log.info(`Deleting ${entryId} for ${username}`)
         await Entry.delete(entryId)
         return {
-            status : constants.STATUS_SUCCESS,
-            entryId : entryId
+            status: constants.STATUS_SUCCESS,
+            entryId: entryId
         }
     } catch (e) {
         log.error(`Error while deleting ${entryId} for ${username} ${e.message}`)
@@ -65,8 +65,8 @@ export async function getEntryForUser(entryId, username) {
     try {
         log.info(`Fetching entry : ${entryId} for ${username}`)
         const result = await Entry.query({
-            "id" : {"eq" : entryId},
-            "username" : {"eq" : username}
+            "id": {"eq": entryId},
+            "username": {"eq": username}
         }).exec()
         log.info(`Entry ${entryId} for ${username} : ${result}`)
         return result.count === 1 ? result[0].toJSON() : null
@@ -80,14 +80,14 @@ export async function getUserEntries(month, year, username) {
     try {
         log.info(`Fetching entries for month : ${month}, ${year} for ${username}`)
         const result = await Entry.query({
-            "month" : {"eq" : month},
-            "year" : {"eq" : year},
-            "username" : {"eq" : username}
+            "month": {"eq": month},
+            "year": {"eq": year},
+            "username": {"eq": username}
         }).exec()
         log.info(`Entries for month ${month}, ${year} for ${username} : ${result}`)
         const responseJson = {
-            count : result.count,
-            entries : result.toJSON()
+            count: result.count,
+            entries: result.toJSON()
         }
         return responseJson
     } catch (e) {
@@ -99,12 +99,12 @@ export async function getUserEntries(month, year, username) {
 export async function getUserEntryCalendar(request, response) {
     try {
         log.info(`Fetching UserEntryCalendar for ${request.session.username}`)
-        const result  = await Entry.query("username").eq(request.session.username)
+        const result = await Entry.query("username").eq(request.session.username)
             .attributes(["id", "month", "year", "date"]).exec()
         log.info(`UserEntryCalendar results for ${request.session.username} : ${result}`)
         const responseJson = {
-            count : result.count,
-            entries : result.toJSON()
+            count: result.count,
+            entries: result.toJSON()
         }
         return responseJson
     } catch (e) {
@@ -116,11 +116,11 @@ export async function getUserEntryCalendar(request, response) {
 export async function getUserEntryByDate(username, date, month, year) {
     try {
         log.info(`Fetching UserEntry by date ${date}-${month}-${year} for ${username}`)
-        const result  = await Entry.query({
-            "username" : {"eq" : username},
-            "date" : {"eq" : date},
-            "month" : {"eq" : month},
-            "year" : {"eq" : year}
+        const result = await Entry.query({
+            "username": {"eq": username},
+            "date": {"eq": date},
+            "month": {"eq": month},
+            "year": {"eq": year}
         }).exec()
         log.info(`UserEntry by date ${date}-${month}-${year} results for ${username}: ${result}`)
         return result.count === 1 ? result[0].toJSON() : null

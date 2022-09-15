@@ -1,10 +1,10 @@
-import { Component } from "react";
+import {Component} from "react";
 import {Card, CardContent, Grid, Typography} from "@mui/material";
 
 class Banner extends Component {
 
     render() {
-        if(!this.props.bannerMessage) {
+        if (!this.props.bannerMessage) {
             return
         }
         const style = {
@@ -17,7 +17,7 @@ class Banner extends Component {
         return (
             <Grid item md={12} xs={12}>
                 <Card raised sx={style}>
-                    <CardContent >
+                    <CardContent>
                         <Typography component={'span'} variant={"body1"} color={"white"}>
                             {this.props.bannerMessage}
                         </Typography>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { store } from './app/store';
+import {createRoot} from 'react-dom/client';
+import {Provider} from 'react-redux';
+import {store} from './app/store';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
@@ -16,7 +16,8 @@ import SettingsView from "./features/user/SettingsView";
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-const theme = createTheme({ palette: {
+const theme = createTheme({
+    palette: {
         primary: {
             main: '#7c4dff',
         },
@@ -30,15 +31,15 @@ root.render(
     <Provider store={store}>
         <Router>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <Header />
+                <CssBaseline/>
+                <Header/>
                 <Routes>
-                    <Route path="/" >
-                        <Route index element={<HomeView />} />
-                        <Route path="diary" element={<DiaryView />} />
-                        <Route path="entries" element={<ListEntriesView />} />
-                        <Route path="settings" element={<SettingsView />} />
-                        <Route path="*" element={<HomeView />} />
+                    <Route path="/">
+                        <Route index element={<HomeView/>}/>
+                        <Route path="diary" element={<DiaryView/>}/>
+                        <Route path="entries" element={<ListEntriesView/>}/>
+                        <Route path="settings" element={<SettingsView/>}/>
+                        <Route path="*" element={<HomeView/>}/>
                     </Route>
                 </Routes>
             </ThemeProvider>

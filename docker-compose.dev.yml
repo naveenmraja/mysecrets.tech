@@ -47,7 +47,7 @@ services:
       dockerfile: DockerFile.dev
     container_name: nginx-dev
     ports:
-      - "80:80"
+      - "8088:80"
     depends_on:
       - mysecrets-dev-backend
       - mysecrets-dev-frontend

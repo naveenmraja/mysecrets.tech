@@ -1,13 +1,16 @@
-import {Component} from "react";
 import * as React from "react";
+import {Component} from "react";
 import {
-    AppBar, Button, Divider,
+    AppBar,
+    Button,
+    Divider,
     Grid,
     IconButton,
     ListItemIcon,
     ListItemText,
     Menu,
-    MenuItem, Stack,
+    MenuItem,
+    Stack,
     Toolbar
 } from "@mui/material";
 import {Link as RouterLink} from "react-router-dom";
@@ -19,7 +22,7 @@ import {logoutUser} from "../features/user/UserSlice";
 
 function mapStateToProps(state) {
     return {
-        user : state.user
+        user: state.user
     }
 }
 
@@ -31,29 +34,29 @@ class Header extends Component {
         this.homeButtonRef = React.createRef()
         this.settingsButtonRef = React.createRef()
         this.state = {
-            showMenu : false
+            showMenu: false
         }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.user.loggedIn && !this.props.user.loggedIn) {
+        if (prevProps.user.loggedIn && !this.props.user.loggedIn) {
             this.homeButtonRef.current.click()
         }
     }
 
     handleLogout = () => {
-        this.setState({ showMenu: false })
+        this.setState({showMenu: false})
         const username = this.props.user.username
         this.props.dispatch(logoutUser(username))
     }
 
     openSettingsMenu = () => {
-        this.setState({ showMenu : false })
+        this.setState({showMenu: false})
         this.settingsButtonRef.current.click()
     }
 
     render() {
-        if(!this.props.user.ui.showHeader) {
+        if (!this.props.user.ui.showHeader) {
             return
         }
         return (
@@ -71,13 +74,13 @@ class Header extends Component {
                                     <Avatar sx={{bgcolor: "secondary.main", mt: 2, mb: 2, ml: 2}}>
                                         <IconButton sx={{color: "white"}} ref={this.profileButtonRef}
                                                     onClick={() => this.homeButtonRef.current.click()}>
-                                            <HomeOutlined />
+                                            <HomeOutlined/>
                                         </IconButton>
                                     </Avatar>
                                     <Avatar sx={{bgcolor: "secondary.main", mt: 2, mb: 2, ml: 2}}>
                                         <IconButton sx={{color: "white"}} ref={this.profileButtonRef}
-                                                    onClick={() => this.setState({ showMenu : true })}>
-                                            <PersonOutlined />
+                                                    onClick={() => this.setState({showMenu: true})}>
+                                            <PersonOutlined/>
                                         </IconButton>
                                         <Menu
                                             anchorEl={this.profileButtonRef.current}
@@ -90,16 +93,16 @@ class Header extends Component {
                                                 horizontal: 'center',
                                             }}
                                             open={this.state.showMenu}
-                                            onClose={() => this.setState({ showMenu : false })}
-                                            sx={{mt : 1}}
+                                            onClose={() => this.setState({showMenu: false})}
+                                            sx={{mt: 1}}
                                         >
                                             <MenuItem onClick={this.openSettingsMenu}>
                                                 <ListItemIcon>
-                                                    <SettingsOutlined color={"primary"} />
+                                                    <SettingsOutlined color={"primary"}/>
                                                 </ListItemIcon>
                                                 <ListItemText>Settings</ListItemText>
                                             </MenuItem>
-                                            <Divider />
+                                            <Divider/>
                                             <MenuItem onClick={this.handleLogout}>
                                                 <ListItemIcon>
                                                     <LogoutOutlined color={"secondary"}/>

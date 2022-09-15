@@ -1,23 +1,17 @@
-import { Component } from "react";
-import * as React from 'react'
-import { connect } from "react-redux";
+import * as React from "react";
+import {Component} from "react";
+import {connect} from "react-redux";
 import Grid from "@mui/material/Grid";
 import {styled} from "@mui/styles";
-import {
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    Paper,
-    Tab,
-    Tabs, Skeleton
-} from "@mui/material";
-import { tabsClasses } from '@mui/material/Tabs';
+import {Button, FormControl, InputLabel, MenuItem, Paper, Select, Skeleton, Tab, Tabs} from "@mui/material";
+import {tabsClasses} from '@mui/material/Tabs';
 import {
     fetchCalendar,
-    fetchCurrentMonthEntries, fetchUserEntry,
-    resetCurrenEntry, resetUIElements, updateCurrentEntry,
+    fetchCurrentMonthEntries,
+    fetchUserEntry,
+    resetCurrenEntry,
+    resetUIElements,
+    updateCurrentEntry,
     updateCurrentMonth,
     updateCurrentYear
 } from "./DiarySlice";
@@ -30,13 +24,13 @@ import {Navigate} from "react-router-dom";
 
 function mapStateToProps(state) {
     return {
-        user : state.user,
-        diary : state.diary,
-        ui : state.diary.ui
+        user: state.user,
+        diary: state.diary,
+        ui: state.diary.ui
     }
 }
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
+const StyledPaper = styled(Paper)(({theme}) => ({
     ...theme.typography.body2,
     color: theme.palette.text.secondary
 }))
@@ -47,8 +41,8 @@ class ListEntriesView extends Component {
         super(props);
         this.createEntryButtonRef = React.createRef()
         this.state = {
-            showPopover : false,
-            navigateToEdit : false
+            showPopover: false,
+            navigateToEdit: false
         }
     }
 
@@ -57,8 +51,8 @@ class ListEntriesView extends Component {
         this.props.dispatch(resetUIElements())
         this.props.dispatch(fetchCalendar(this.props.user.username))
         const params = {
-            month : this.props.diary.currentMonth,
-            year : this.props.diary.currentYear
+            month: this.props.diary.currentMonth,
+            year: this.props.diary.currentYear
         }
         this.props.dispatch(fetchCurrentMonthEntries(params))
     }
@@ -68,8 +62,8 @@ class ListEntriesView extends Component {
         const currentDate = new Date()
         this.props.dispatch(updateCurrentYear(year))
         const params = {
-            month : (year === currentDate.getFullYear() ? currentDate.getMonth() : 0),
-            year : year
+            month: (year === currentDate.getFullYear() ? currentDate.getMonth() : 0),
+            year: year
         }
         this.props.dispatch(fetchCurrentMonthEntries(params))
     }
@@ -77,35 +71,35 @@ class ListEntriesView extends Component {
     updateMonth = (event, currentMonth) => {
         this.props.dispatch(updateCurrentMonth(currentMonth))
         const params = {
-            month : currentMonth,
-            year : this.props.diary.currentYear
+            month: currentMonth,
+            year: this.props.diary.currentYear
         }
         this.props.dispatch(fetchCurrentMonthEntries(params))
     }
 
     handleCreateEntry = (selectedDate) => {
         let newEntry = {
-            "id" : "",
-            "title" : "",
-            "date" : selectedDate.getDate(),
-            "month" : selectedDate.getMonth(),
-            "year" : selectedDate.getFullYear(),
-            "content" : ""
+            "id": "",
+            "title": "",
+            "date": selectedDate.getDate(),
+            "month": selectedDate.getMonth(),
+            "year": selectedDate.getFullYear(),
+            "content": ""
         }
-        if(selectedDate.toDateString() in this.props.diary.calendarEntries) {
+        if (selectedDate.toDateString() in this.props.diary.calendarEntries) {
             newEntry.id = this.props.diary.calendarEntries[selectedDate.toDateString()]
             this.props.dispatch(fetchUserEntry(newEntry.id))
         } else {
             this.props.dispatch(updateCurrentEntry(newEntry))
         }
-        this.setState({ navigateToEdit : true })
+        this.setState({navigateToEdit: true})
     }
 
     render() {
-        if(!this.props.user.loggedIn) {
+        if (!this.props.user.loggedIn) {
             return (<Navigate to={"/"}/>)
         }
-        if(this.state.navigateToEdit) {
+        if (this.state.navigateToEdit) {
             return (<Navigate to={"/diary"}/>)
         }
         let yearsMenuItems = []
@@ -120,38 +114,39 @@ class ListEntriesView extends Component {
         this.props.diary.currentMonthEntries.forEach((entry) => {
             entries.push(<EntryCard entry={entry} key={entry.id}/>)
         })
-        if(this.props.ui.showSkeleton) {
-            for(let i=0; i< 3; i++) {
+        if (this.props.ui.showSkeleton) {
+            for (let i = 0; i < 3; i++) {
                 entries.push(
                     <Grid item xs={12} md={4} className={"entryCard"} key={`skeleton-${i}`}>
                         <Skeleton variant={"rectangular"} height={"100%"} animation={"wave"}/>
                     </Grid>
                 )
             }
-        } else if(entries.length === 0) {
+        } else if (entries.length === 0) {
             const bannerMessage = this.props.ui.errorMessage ? this.props.ui.errorMessage : "No entries available for this month"
             const color = this.props.ui.errorMessage ? "error.main" : "secondary.main"
             entries.push(<Banner bannerMessage={bannerMessage} color={color} key={"banner-message"}/>)
         }
-        if(this.props.diary.retryFetchCalendar) {
+        if (this.props.diary.retryFetchCalendar) {
             setTimeout(() => {
                 this.props.dispatch(fetchCalendar(this.props.user.username))
             }, 10000)
         }
-        return(
+        return (
             <Grid container alignItems="center" justify="center" direction={"row"}
                   sx={{height: "90vh", width: "100%"}}>
                 <Grid container alignItems="center" justify="center" direction={"row"}
                       sx={{height: "10%", width: "100%"}}>
-                    <Grid item xs={1} md={1} />
+                    <Grid item xs={1} md={1}/>
                     <Grid item xs={5} md={2}>
                         <Button color={"secondary"} type="submit" variant="contained" ref={this.createEntryButtonRef}
-                                startIcon={<CreateOutlined/>} onClick={() => this.setState({showPopover : true})}>
+                                startIcon={<CreateOutlined/>} onClick={() => this.setState({showPopover: true})}>
                             New Entry
                         </Button>
                         <Calendar showPopover={this.state.showPopover}
-                                  onClosePopover={() => this.setState({ showPopover : false })}
-                                  anchorEl={this.createEntryButtonRef.current} anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+                                  onClosePopover={() => this.setState({showPopover: false})}
+                                  anchorEl={this.createEntryButtonRef.current}
+                                  anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
                                   handleDateSelection={this.handleCreateEntry}/>
                     </Grid>
                     <Grid item xs={5} md={8}>
@@ -165,16 +160,16 @@ class ListEntriesView extends Component {
                 </Grid>
                 <Grid container
                       sx={{height: "90%", width: "100%"}}>
-                    <Grid item xs={1} md={1} />
+                    <Grid item xs={1} md={1}/>
                     <Grid item xs={12} md={10} sx={{height: "100%"}}>
                         <StyledPaper elevation={24} sx={{height: "100%", padding: "2%", width: "100%"}}>
                             <Grid container direction={"row"} sx={{height: "10%", width: "100%"}}>
-                                <Grid item xs={12} md={12}  sx={{height: "100%"}}>
+                                <Grid item xs={12} md={12} sx={{height: "100%"}}>
                                     <Tabs value={this.props.diary.currentMonth} onChange={this.updateMonth}
-                                        textColor="secondary" indicatorColor="secondary" variant="scrollable"
-                                        scrollButtons sx={{
+                                          textColor="secondary" indicatorColor="secondary" variant="scrollable"
+                                          scrollButtons sx={{
                                         [`& .${tabsClasses.scrollButtons}`]: {
-                                            '&.Mui-disabled': { opacity: 0.3 },
+                                            '&.Mui-disabled': {opacity: 0.3},
                                         },
                                     }}>
                                         {monthsTabs}

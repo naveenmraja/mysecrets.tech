@@ -1,18 +1,11 @@
 import express from 'express'
-import { getEnvironmentVariable } from './utils/Constants.js'
 import * as constants from './utils/Constants.js'
-import dynamoose from  'dynamoose'
+import {getEnvironmentVariable} from './utils/Constants.js'
+import dynamoose from 'dynamoose'
 import session from 'express-session'
 import connectDynamo from 'connect-dynamodb'
-import { log } from './utils/Logger.js'
-import {
-    createUser,
-    loginUser,
-    updateUser,
-    isAuthenticated,
-    logoutUser,
-    getUser
-} from "./controllers/UserController.js";
+import {log} from './utils/Logger.js'
+import {createUser, getUser, isAuthenticated, loginUser, logoutUser, updateUser} from "./controllers/UserController.js";
 import {
     createEntry,
     deleteEntry,
@@ -22,7 +15,7 @@ import {
     updateEntry
 } from "./controllers/EntryController.js";
 
-if(getEnvironmentVariable(constants.NODE_ENV) != constants.PRODUCTION) {
+if (getEnvironmentVariable(constants.NODE_ENV) != constants.PRODUCTION) {
     dynamoose.aws.ddb.local(getEnvironmentVariable(constants.DYNAMO_DB_LOCAL_ENDPOIT))
 }
 
@@ -30,7 +23,7 @@ const app = express()
 var DynamoDBStore = connectDynamo({session: session})
 
 app.use(session({
-    store: new DynamoDBStore({table : constants.DYNAMODB_SESSION_STORE, client : dynamoose.aws.ddb()}),
+    store: new DynamoDBStore({table: constants.DYNAMODB_SESSION_STORE, client: dynamoose.aws.ddb()}),
     secret: getEnvironmentVariable(constants.EXPRESS_SESSION_SECRET),
     resave: false,
     saveUninitialized: true

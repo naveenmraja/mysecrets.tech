@@ -1,39 +1,34 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {
-    createUserAPI, getUserAPI,
-    loginUserAPI,
-    logoutUserAPI,
-    updateUserAPI
-} from "./UserAPI";
+import {createUserAPI, getUserAPI, loginUserAPI, logoutUserAPI, updateUserAPI} from "./UserAPI";
 import {STATUS_SUCCESS} from "../../utils/Constants";
 import {getErrorResponse} from "../../utils/Utils";
 
 const initialState = {
-    name : "",
-    username : "",
-    password : "",
-    confirmPassword : "",
-    newPassword : "",
-    confirmNewPassword : "",
-    email : "",
+    name: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+    email: "",
     diaryName: "",
-    loggedIn : false,
-    ui : {
+    loggedIn: false,
+    ui: {
         usernameError: "",
         passwordError: "",
-        confirmPasswordError : "",
+        confirmPasswordError: "",
         emailError: "",
         diaryNameError: "",
         nameError: "",
         showLoader: false,
-        signUpError : "",
-        loginError : "",
-        logoutError : "",
+        signUpError: "",
+        loginError: "",
+        logoutError: "",
         updateUserError: "",
-        showLogin : true,
-        showSignup : false,
-        showSnackbar : false,
-        showHeader : true
+        showLogin: true,
+        showSignup: false,
+        showSnackbar: false,
+        showHeader: true
     }
 }
 
@@ -56,14 +51,14 @@ export const getUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
     'users/logoutUser',
     async (username) => {
-        const response =  await logoutUserAPI(username);
+        const response = await logoutUserAPI(username);
         return (response.ok ? await response.json() : await getErrorResponse(response))
     }
 );
 
 export const signupUser = createAsyncThunk(
     'users/signupUser',
-    async ( username, { getState }) => {
+    async (username, {getState}) => {
         const state = getState()
         const response = (await createUserAPI(state));
         return (response.ok ? await response.json() : await getErrorResponse(response))
@@ -79,34 +74,34 @@ export const updateUserDetails = createAsyncThunk(
 );
 
 export const userSlice = createSlice({
-    name : "user",
+    name: "user",
     initialState,
-    reducers : {
-        updateName : (state, action) => {
+    reducers: {
+        updateName: (state, action) => {
             state.name = action.payload
         },
-        updateUsername : (state, action) => {
+        updateUsername: (state, action) => {
             state.username = action.payload
         },
-        updatePassword : (state, action) => {
+        updatePassword: (state, action) => {
             state.password = action.payload
         },
-        updateConfirmPassword : (state, action) => {
+        updateConfirmPassword: (state, action) => {
             state.confirmPassword = action.payload
         },
-        updateNewPassword : (state, action) => {
+        updateNewPassword: (state, action) => {
             state.newPassword = action.payload
         },
-        updateConfirmNewPassword : (state, action) => {
+        updateConfirmNewPassword: (state, action) => {
             state.confirmNewPassword = action.payload
         },
-        updateEmail : (state, action) => {
+        updateEmail: (state, action) => {
             state.email = action.payload
         },
-        updateDiaryName : (state, action) => {
+        updateDiaryName: (state, action) => {
             state.diaryName = action.payload
         },
-        showLogin : (state) => {
+        showLogin: (state) => {
             state.name = ""
             state.username = ""
             state.password = ""
@@ -115,7 +110,7 @@ export const userSlice = createSlice({
             state.ui.showLogin = true
             state.ui.showSignup = false
         },
-        showSignup : (state) => {
+        showSignup: (state) => {
             state.name = ""
             state.username = ""
             state.password = ""
@@ -125,38 +120,38 @@ export const userSlice = createSlice({
             state.ui.showLogin = false
             state.ui.showSignup = true
         },
-        showLoader : (state) => {
+        showLoader: (state) => {
             state.ui.showLoader = true
         },
-        hideLoader : (state) => {
+        hideLoader: (state) => {
             state.ui.showLoader = false
         },
-        showSnackbar : (state) => {
+        showSnackbar: (state) => {
             state.ui.showSnackbar = false
             state.ui.showSnackbar = true
         },
-        hideSnackbar : (state) => {
+        hideSnackbar: (state) => {
             state.ui.showSnackbar = false
         },
-        updateNameError : (state, action) => {
+        updateNameError: (state, action) => {
             state.ui.nameError = action.payload
         },
-        updateUsernameError : (state, action) => {
+        updateUsernameError: (state, action) => {
             state.ui.usernameError = action.payload
         },
-        updatePasswordError : (state, action) => {
+        updatePasswordError: (state, action) => {
             state.ui.passwordError = action.payload
         },
-        updateConfirmPasswordError : (state, action) => {
+        updateConfirmPasswordError: (state, action) => {
             state.ui.confirmPasswordError = action.payload
         },
-        updateEmailError : (state, action) => {
+        updateEmailError: (state, action) => {
             state.ui.emailError = action.payload
         },
-        updateDiaryNameError : (state, action) => {
+        updateDiaryNameError: (state, action) => {
             state.ui.diaryNameError = action.payload
         },
-        clearErrors : (state) => {
+        clearErrors: (state) => {
             state.ui.usernameError = ""
             state.ui.passwordError = ""
             state.ui.confirmPasswordError = ""
@@ -164,20 +159,20 @@ export const userSlice = createSlice({
             state.ui.diaryNameError = ""
             state.ui.nameError = ""
         },
-        showHeader : (state) => {
+        showHeader: (state) => {
             state.ui.showHeader = true
         },
-        hideHeader : (state) => {
+        hideHeader: (state) => {
             state.ui.showHeader = false
         }
     },
-    extraReducers : (builder) => {
+    extraReducers: (builder) => {
         builder.addCase(loginUser.pending, (state) => {
             state.ui.showSnackbar = false
             state.ui.showLoader = true
         }).addCase(loginUser.fulfilled, (state, action) => {
             const response = action.payload;
-            if("errorMessage" in response) {
+            if ("errorMessage" in response) {
                 state.ui.loginError = response.errorMessage
                 state.loggedIn = false
                 state.ui.showSnackbar = true
@@ -196,7 +191,7 @@ export const userSlice = createSlice({
             state.ui.showLoader = true
         }).addCase(logoutUser.fulfilled, (state, action) => {
             const response = action.payload;
-            if(response.status === STATUS_SUCCESS) {
+            if (response.status === STATUS_SUCCESS) {
                 state.ui.logoutError = ""
                 state.name = ""
                 state.username = ""
@@ -204,7 +199,7 @@ export const userSlice = createSlice({
                 state.diaryName = ""
                 state.email = ""
                 state.loggedIn = false
-            } else if("errorMessage" in response) {
+            } else if ("errorMessage" in response) {
                 state.ui.logoutError = response.errorMessage
                 state.loggedIn = true
                 state.ui.showSnackbar = true
@@ -218,7 +213,7 @@ export const userSlice = createSlice({
             state.ui.showLoader = true
         }).addCase(getUser.fulfilled, (state, action) => {
             const response = action.payload;
-            if("errorMessage" in response) {
+            if ("errorMessage" in response) {
                 state.loggedIn = false
             } else {
                 Object.assign(state, response)
@@ -232,7 +227,7 @@ export const userSlice = createSlice({
             state.ui.showLoader = true
         }).addCase(signupUser.fulfilled, (state, action) => {
             const response = action.payload;
-            if("errorMessage" in response) {
+            if ("errorMessage" in response) {
                 state.ui.signUpError = response.errorMessage
                 state.loggedIn = false
                 state.ui.showSnackbar = false
@@ -251,11 +246,11 @@ export const userSlice = createSlice({
         }).addCase(updateUserDetails.pending, (state) => {
             state.ui.showSnackbar = false
             state.ui.showLoader = true
-        }).addCase(updateUserDetails.fulfilled,(state, action) => {
+        }).addCase(updateUserDetails.fulfilled, (state, action) => {
             const response = action.payload;
-            if("errorMessage" in response) {
+            if ("errorMessage" in response) {
                 state.ui.updateUserError = response.errorMessage
-                if(response.statusCode === 401) {
+                if (response.statusCode === 401) {
                     state.loggedIn = false
                 }
             } else {
@@ -272,9 +267,11 @@ export const userSlice = createSlice({
     }
 })
 
-export const { updateName, updateUsername, updateEmail, updatePassword, updateConfirmPassword, updateDiaryName,
+export const {
+    updateName, updateUsername, updateEmail, updatePassword, updateConfirmPassword, updateDiaryName,
     updateNewPassword, updateConfirmNewPassword, showLogin, showSignup, clearErrors, updateNameError,
     updateUsernameError, updateEmailError, updateConfirmPasswordError, updatePasswordError, updateDiaryNameError,
-    showSnackbar, hideSnackbar, showLoader, hideLoader, showHeader, hideHeader } = userSlice.actions
+    showSnackbar, hideSnackbar, showLoader, hideLoader, showHeader, hideHeader
+} = userSlice.actions
 
 export default userSlice.reducer

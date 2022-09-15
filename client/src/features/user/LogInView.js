@@ -1,9 +1,9 @@
 import * as React from 'react';
+import {Component} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import {Component} from "react";
 import {connect} from "react-redux";
 import {
     Button,
@@ -18,10 +18,13 @@ import {
 import Box from "@mui/material/Box";
 import Link from '@mui/material/Link';
 import {
-    clearErrors, hideLoader, hideSnackbar,
+    clearErrors,
+    hideLoader,
+    hideSnackbar,
     loginUser,
     showSignup,
-    updatePassword, updatePasswordError,
+    updatePassword,
+    updatePasswordError,
     updateUsername,
     updateUsernameError
 } from "./UserSlice";
@@ -34,8 +37,8 @@ import Loader from "../../components/Loader";
 
 function mapStateToProps(state) {
     return {
-        user : state.user,
-        ui : state.user.ui
+        user: state.user,
+        ui: state.user.ui
     }
 }
 
@@ -48,22 +51,22 @@ class LogInView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showPassword : false,
-            showForgotPasswordSnackbar : false
+            showPassword: false,
+            showForgotPasswordSnackbar: false
         }
     }
 
     handleLogIn = (event) => {
         event.preventDefault()
         this.props.dispatch(clearErrors())
-        if(this.props.user.username.length < 6 || !isAlphanumeric(this.props.user.username)) {
+        if (this.props.user.username.length < 6 || !isAlphanumeric(this.props.user.username)) {
             this.props.dispatch(updateUsernameError(Constants.INVALID_USERNAME))
-        } else if(!isStrongPassword(this.props.user.password)) {
+        } else if (!isStrongPassword(this.props.user.password)) {
             this.props.dispatch(updatePasswordError(Constants.INVALID_PASSWORD))
         } else {
             const params = {
-                username : this.props.user.username,
-                password : this.props.user.password
+                username: this.props.user.username,
+                password: this.props.user.password
             }
             this.props.dispatch(loginUser(params))
         }
@@ -74,16 +77,18 @@ class LogInView extends Component {
     }
 
     render() {
-        return(
+        return (
             <Container component="main" maxWidth="xs">
                 <Loader showLoader={this.props.ui.showLoader}/>
                 <Snackbar open={this.props.ui.showSnackbar} autoHideDuration={5000} onClose={this.closeSnackbar}>
-                    <Alert onClose={this.closeSnackbar} severity="error" sx={{ width: '100%' }}>
+                    <Alert onClose={this.closeSnackbar} severity="error" sx={{width: '100%'}}>
                         {this.props.ui.loginError}
                     </Alert>
                 </Snackbar>
-                <Snackbar open={this.state.showForgotPasswordSnackbar} autoHideDuration={5000} onClose={() => this.setState({showForgotPasswordSnackbar : false})}>
-                    <Alert onClose={() => this.setState({showForgotPasswordSnackbar : false})} severity="error" sx={{ width: '100%' }}>
+                <Snackbar open={this.state.showForgotPasswordSnackbar} autoHideDuration={5000}
+                          onClose={() => this.setState({showForgotPasswordSnackbar: false})}>
+                    <Alert onClose={() => this.setState({showForgotPasswordSnackbar: false})} severity="error"
+                           sx={{width: '100%'}}>
                         Forgot Password feature unavailable at this moment
                     </Alert>
                 </Snackbar>
@@ -95,13 +100,13 @@ class LogInView extends Component {
                         alignItems: 'center',
                     }}
                 >
-                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                        <LockOutlinedIcon />
+                    <Avatar sx={{m: 1, bgcolor: 'secondary.main'}}>
+                        <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 1 }}>
+                    <Box component="form" noValidate sx={{mt: 1}}>
                         <TextField
                             margin="normal"
                             required
@@ -113,7 +118,7 @@ class LogInView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <PersonOutlined color={"primary"} />
+                                        <PersonOutlined color={"primary"}/>
                                     </InputAdornment>
                                 )
                             }}
@@ -134,18 +139,18 @@ class LogInView extends Component {
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <KeyOutlined color={"primary"} />
+                                        <KeyOutlined color={"primary"}/>
                                     </InputAdornment>
                                 ),
                                 endAdornment: (
                                     <InputAdornment position="end">
                                         {this.state.showPassword ? (
-                                            <IconButton onClick={() => this.setState({ showPassword: false })}>
-                                                <VisibilityOffOutlined />
+                                            <IconButton onClick={() => this.setState({showPassword: false})}>
+                                                <VisibilityOffOutlined/>
                                             </IconButton>
                                         ) : (
-                                            <IconButton onClick={() => this.setState({ showPassword: true })}>
-                                                <VisibilityOutlined />
+                                            <IconButton onClick={() => this.setState({showPassword: true})}>
+                                                <VisibilityOutlined/>
                                             </IconButton>
                                         )}
                                     </InputAdornment>
@@ -156,14 +161,14 @@ class LogInView extends Component {
                             value={this.props.user.password}
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{mt: 3, mb: 2}}
                             onClick={this.handleLogIn}
                         >
                             Sign In
@@ -173,7 +178,7 @@ class LogInView extends Component {
                                 <Link variant="body1"
                                       sx={{cursor: "pointer"}} // TODO : Implement Forgot Password
                                       onClick={() => {
-                                          this.setState({showForgotPasswordSnackbar : true})
+                                          this.setState({showForgotPasswordSnackbar: true})
                                       }}>
                                     Forgot password?
                                 </Link>

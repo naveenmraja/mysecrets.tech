@@ -1,7 +1,7 @@
-import { User } from '../model/User.js'
+import {User} from '../model/User.js'
 import * as constants from '../utils/Constants.js'
 import * as bcrypt from 'bcrypt'
-import { log } from '../utils/Logger.js'
+import {log} from '../utils/Logger.js'
 
 export async function verifyUserLogin(request) {
     try {
@@ -9,19 +9,19 @@ export async function verifyUserLogin(request) {
         const user = await User.get(request.params.username)
         const passwordHash = user.password
         const result = await bcrypt.compare(request.body.password, passwordHash)
-        if(result) {
+        if (result) {
             const responseBody = await user.json()
             log.info(`User login verified : ${responseBody}`)
-            return {"status" : 200, "response" : responseBody}
+            return {"status": 200, "response": responseBody}
         } else {
             log.info(`User login failed : ${request.params.username}`)
-            const responseBody = {status : constants.STATUS_FAILURE, error: "Invalid username/password"}
-            return {"status" : 400, "response" : responseBody}
+            const responseBody = {status: constants.STATUS_FAILURE, error: "Invalid username/password"}
+            return {"status": 400, "response": responseBody}
         }
     } catch (e) {
         log.error(`Error occurred while verifying user login ${request.params.username} : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
-        return {"status" : 500, "response" : responseBody}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
+        return {"status": 500, "response": responseBody}
     }
 }
 
@@ -30,26 +30,26 @@ export async function createOrUpdateUser(request, response, command) {
         log.info(`${command} request for : ${request.body.username}`)
         let document = {
             "username": (command === constants.CREATE_USER ? request.body.username : request.session.username),
-            "name" : request.body.name,
-            "email" : request.body.email,
-            "diaryName" : request.body.diaryName
+            "name": request.body.name,
+            "email": request.body.email,
+            "diaryName": request.body.diaryName
         }
-        if(request.body.password) {
+        if (request.body.password) {
             document["password"] = await bcrypt.hash(request.body.password, constants.SALT_ROUNDS)
         }
         let user
-        if(command === constants.CREATE_USER) {
+        if (command === constants.CREATE_USER) {
             user = await User.create(document)
-        } else if(command === constants.UPDATE_USER) {
+        } else if (command === constants.UPDATE_USER) {
             user = await User.update(document)
         }
         const responseBody = await user.json()
         log.info(`${command} response : ${responseBody}`)
-        return {"status" : 200, "response" : responseBody}
+        return {"status": 200, "response": responseBody}
     } catch (e) {
         log.error(`Error occurred during ${command} : ${e.message}`)
-        const responseBody = {status : constants.STATUS_FAILURE, error: e.message}
-        return {"status" : 500, "response" : responseBody}
+        const responseBody = {status: constants.STATUS_FAILURE, error: e.message}
+        return {"status": 500, "response": responseBody}
     }
 }
 

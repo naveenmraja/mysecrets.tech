@@ -1,5 +1,7 @@
 import {
-    CREATE_ENTRY, CREATE_OR_UPDATE_ENTRIES_URL, DELETE_ENTRY_URL,
+    CREATE_ENTRY,
+    CREATE_OR_UPDATE_ENTRIES_URL,
+    DELETE_ENTRY_URL,
     GET_ENTRIES_URL,
     GET_ENTRY_FOR_USER_URL,
     GET_USER_CALENDAR_URL,
@@ -21,7 +23,7 @@ export function fetchCurrentMonthEntriesAPI(params, username) {
 export function createOrUpdateEntryAPI(command, params, username) {
     const method = (command === CREATE_ENTRY) ? "POST" : "PUT"
     return fetch(CREATE_OR_UPDATE_ENTRIES_URL.replace(":username", username), {
-        method : method,
+        method: method,
         headers: {
             'Content-Type': 'application/json'
         },
@@ -32,5 +34,5 @@ export function createOrUpdateEntryAPI(command, params, username) {
 export function deleteEntryAPI(entryId, username) {
     const url = DELETE_ENTRY_URL.replace(":username", username)
         .replace(":entryId", entryId)
-    return fetch(url, { method : "DELETE" })
+    return fetch(url, {method: "DELETE"})
 }
